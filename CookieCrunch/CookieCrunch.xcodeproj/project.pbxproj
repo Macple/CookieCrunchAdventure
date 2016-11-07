@@ -8,26 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		3548C78F1DD0A00600C5F86F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C78E1DD0A00600C5F86F /* AppDelegate.swift */; };
-		3548C7911DD0A00600C5F86F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3548C7901DD0A00600C5F86F /* GameScene.sks */; };
-		3548C7931DD0A00600C5F86F /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3548C7921DD0A00600C5F86F /* Actions.sks */; };
 		3548C7951DD0A00600C5F86F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C7941DD0A00600C5F86F /* GameScene.swift */; };
 		3548C7971DD0A00600C5F86F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C7961DD0A00600C5F86F /* GameViewController.swift */; };
 		3548C79A1DD0A00600C5F86F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3548C7981DD0A00600C5F86F /* Main.storyboard */; };
 		3548C79C1DD0A00600C5F86F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3548C79B1DD0A00600C5F86F /* Assets.xcassets */; };
 		3548C79F1DD0A00600C5F86F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3548C79D1DD0A00600C5F86F /* LaunchScreen.storyboard */; };
+		3548C7A91DD0A58F00C5F86F /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3548C7A81DD0A58F00C5F86F /* Sprites.atlas */; };
+		3548C7AB1DD0A75400C5F86F /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C7AA1DD0A75400C5F86F /* Cookie.swift */; };
+		3548C7AD1DD0AD4B00C5F86F /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C7AC1DD0AD4B00C5F86F /* Array2D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3548C78B1DD0A00600C5F86F /* CookieCrunch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookieCrunch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3548C78E1DD0A00600C5F86F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3548C7901DD0A00600C5F86F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		3548C7921DD0A00600C5F86F /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		3548C7941DD0A00600C5F86F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		3548C7961DD0A00600C5F86F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3548C7991DD0A00600C5F86F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3548C79B1DD0A00600C5F86F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3548C79E1DD0A00600C5F86F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3548C7A01DD0A00600C5F86F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3548C7A81DD0A58F00C5F86F /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Sprites.atlas; path = ../Sprites.atlas; sourceTree = "<group>"; };
+		3548C7AA1DD0A75400C5F86F /* Cookie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cookie.swift; sourceTree = "<group>"; };
+		3548C7AC1DD0AD4B00C5F86F /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,12 +63,13 @@
 			isa = PBXGroup;
 			children = (
 				3548C78E1DD0A00600C5F86F /* AppDelegate.swift */,
-				3548C7901DD0A00600C5F86F /* GameScene.sks */,
-				3548C7921DD0A00600C5F86F /* Actions.sks */,
 				3548C7941DD0A00600C5F86F /* GameScene.swift */,
 				3548C7961DD0A00600C5F86F /* GameViewController.swift */,
+				3548C7AA1DD0A75400C5F86F /* Cookie.swift */,
+				3548C7AC1DD0AD4B00C5F86F /* Array2D.swift */,
 				3548C7981DD0A00600C5F86F /* Main.storyboard */,
 				3548C79B1DD0A00600C5F86F /* Assets.xcassets */,
+				3548C7A81DD0A58F00C5F86F /* Sprites.atlas */,
 				3548C79D1DD0A00600C5F86F /* LaunchScreen.storyboard */,
 				3548C7A01DD0A00600C5F86F /* Info.plist */,
 			);
@@ -105,7 +108,7 @@
 				TargetAttributes = {
 					3548C78A1DD0A00500C5F86F = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 3LTJNCGGL3;
+						DevelopmentTeam = XTRY58ZV6V;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -133,11 +136,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3548C7A91DD0A58F00C5F86F /* Sprites.atlas in Resources */,
 				3548C79A1DD0A00600C5F86F /* Main.storyboard in Resources */,
-				3548C7911DD0A00600C5F86F /* GameScene.sks in Resources */,
 				3548C79C1DD0A00600C5F86F /* Assets.xcassets in Resources */,
 				3548C79F1DD0A00600C5F86F /* LaunchScreen.storyboard in Resources */,
-				3548C7931DD0A00600C5F86F /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,8 +151,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3548C7951DD0A00600C5F86F /* GameScene.swift in Sources */,
+				3548C7AB1DD0A75400C5F86F /* Cookie.swift in Sources */,
 				3548C7971DD0A00600C5F86F /* GameViewController.swift in Sources */,
 				3548C78F1DD0A00600C5F86F /* AppDelegate.swift in Sources */,
+				3548C7AD1DD0AD4B00C5F86F /* Array2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,9 +275,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3LTJNCGGL3;
+				DEVELOPMENT_TEAM = XTRY58ZV6V;
 				INFOPLIST_FILE = CookieCrunch/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.plewko.CookieCrunch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -285,9 +289,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3LTJNCGGL3;
+				DEVELOPMENT_TEAM = XTRY58ZV6V;
 				INFOPLIST_FILE = CookieCrunch/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.plewko.CookieCrunch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -314,6 +318,7 @@
 				3548C7A51DD0A00600C5F86F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
