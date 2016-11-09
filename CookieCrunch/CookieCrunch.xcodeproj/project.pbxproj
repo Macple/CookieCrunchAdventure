@@ -21,6 +21,8 @@
 		3548C7B31DD0B81C00C5F86F /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C7B21DD0B81C00C5F86F /* Tile.swift */; };
 		3548C7B51DD0B8BE00C5F86F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3548C7B41DD0B8BE00C5F86F /* Extensions.swift */; };
 		355594311DD32B96000F4378 /* Swap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355594301DD32B96000F4378 /* Swap.swift */; };
+		355594331DD35015000F4378 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 355594321DD35015000F4378 /* Sounds */; };
+		355594351DD351E2000F4378 /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355594341DD351E2000F4378 /* Chain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		3548C7B21DD0B81C00C5F86F /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tile.swift; path = ../Tile.swift; sourceTree = "<group>"; };
 		3548C7B41DD0B8BE00C5F86F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		355594301DD32B96000F4378 /* Swap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swap.swift; sourceTree = "<group>"; };
+		355594321DD35015000F4378 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		355594341DD351E2000F4378 /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,7 @@
 				3555942E1DD31EE5000F4378 /* ViewControllers */,
 				3555942F1DD31EFA000F4378 /* Views */,
 				3548C7B01DD0B79E00C5F86F /* Levels */,
+				355594321DD35015000F4378 /* Sounds */,
 				3548C7A81DD0A58F00C5F86F /* Sprites.atlas */,
 			);
 			path = CookieCrunch;
@@ -91,6 +96,7 @@
 		3555942D1DD31ECC000F4378 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				355594341DD351E2000F4378 /* Chain.swift */,
 				3548C7AA1DD0A75400C5F86F /* Cookie.swift */,
 				3548C7AE1DD0AFDA00C5F86F /* Level.swift */,
 				355594301DD32B96000F4378 /* Swap.swift */,
@@ -175,6 +181,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				355594331DD35015000F4378 /* Sounds in Resources */,
 				3548C7B11DD0B79E00C5F86F /* Levels in Resources */,
 				3548C7A91DD0A58F00C5F86F /* Sprites.atlas in Resources */,
 				3548C79A1DD0A00600C5F86F /* Main.storyboard in Resources */,
@@ -195,6 +202,7 @@
 				3548C7AB1DD0A75400C5F86F /* Cookie.swift in Sources */,
 				3548C7B51DD0B8BE00C5F86F /* Extensions.swift in Sources */,
 				3548C7B31DD0B81C00C5F86F /* Tile.swift in Sources */,
+				355594351DD351E2000F4378 /* Chain.swift in Sources */,
 				3548C7971DD0A00600C5F86F /* GameViewController.swift in Sources */,
 				3548C78F1DD0A00600C5F86F /* AppDelegate.swift in Sources */,
 				3548C7AD1DD0AD4B00C5F86F /* Array2D.swift in Sources */,

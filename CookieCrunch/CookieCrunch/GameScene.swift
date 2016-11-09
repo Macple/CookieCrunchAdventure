@@ -16,6 +16,12 @@ class GameScene: SKScene {
     let gameLayer = SKNode()
     let cookiesLayer = SKNode()
     
+    let swapSound = SKAction.playSoundFileNamed("Sounds/Chomp.wav", waitForCompletion: false)
+    let invalidSwapSound = SKAction.playSoundFileNamed("Sounds/Error.wav", waitForCompletion: false)
+    let matchSound = SKAction.playSoundFileNamed("Sounds/Ka-Ching.wav", waitForCompletion: false)
+    let fallingCookieSound = SKAction.playSoundFileNamed("Sounds/Scrape.wav", waitForCompletion: false)
+    let addCookieSound = SKAction.playSoundFileNamed("Sounds/Drip.wav", waitForCompletion: false)
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
     }
@@ -156,6 +162,7 @@ class GameScene: SKScene {
     }
     
     func animate(_ swap: Swap, completion: @escaping () -> ()) {
+        run(swapSound)
         let spriteA = swap.cookieA.sprite!
         let spriteB = swap.cookieB.sprite!
         
@@ -192,5 +199,68 @@ class GameScene: SKScene {
         selectionSprite.run(SKAction.sequence([
             SKAction.fadeOut(withDuration: 0.3),
             SKAction.removeFromParent()]))
+    }
+    
+    func animateInvalidSwap(_ swap: Swap, completion: @escaping () -> ()) {
+        run(invalidSwapSound)
+        let spriteA = swap.cookieA.sprite!
+        let spriteB = swap.cookieB.sprite!
+        
+        spriteA.zPosition = 100
+        spriteB.zPosition = 90
+        
+        let duration: TimeInterval = 0.2
+        
+        let moveA = SKAction.move(to: spriteB.position, duration: duration)
+        moveA.timingMode = .easeOut
+        
+        let moveB = SKAction.move(to: spriteA.position, duration: duration)
+        moveB.timingMode = .easeOut
+        
+        spriteA.run(SKAction.sequence([moveA, moveB]), completion: completion)
+        spriteB.run(SKAction.sequence([moveB, moveA]))
+    }
+    
+    func animateMatchedCookies(for chains: Set<Chain>, completion: @escaping () -> ()) {
+        for chain in chains {
+            for cookie in chain.cookies {
+                if let sprite = cookie.sprite {
+                    if sprite.action(forKey: "removing") == nil {
+                        let scaleAction = SKAction.scale(to: 0.1, duration: 0.3)
+                        scaleAction.timingMode = .easeOut
+                        sprite.run(SKAction.sequence([scaleAction, SKAction.removeFromParent()]),
+                                   withKey:"removing")
+                    }
+                }
+            }
+        }
+        run(matchSound)
+        run(SKAction.wait(forDuration: 0.3), completion: completion)
+    }
+    
+    func animateFallingCookies(columns: [[Cookie]], completion: @escaping () -> ()) {
+        var longestDuration: TimeInterval = 0
+        for array in columns {
+            for (idx, cookie) in array.enumerated() {
+                let newPosition = pointFor(column: cookie.column, row: cookie.row)
+                
+                let delay = 0.05 + 0.15*TimeInterval(idx)
+                
+                let sprite = cookie.sprite!   // sprite always exists at this point
+                let duration = TimeInterval(((sprite.position.y - newPosition.y) / TileHeight) * 0.1)
+                
+                longestDuration = max(longestDuration, duration + delay)
+                
+                let moveAction = SKAction.move(to: newPosition, duration: duration)
+                moveAction.timingMode = .easeOut
+                sprite.run(
+                    SKAction.sequence([
+                        SKAction.wait(forDuration: delay),
+                        SKAction.group([moveAction, fallingCookieSound])]))
+            }
+        }
+        
+        // 6
+        run(SKAction.wait(forDuration: longestDuration), completion: completion)
     }
 }

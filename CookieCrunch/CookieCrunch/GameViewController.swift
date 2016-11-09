@@ -51,13 +51,25 @@ class GameViewController: UIViewController {
         scene.addSprites(for: newCookies)
     }
     
-    func handleSwipe(swap: Swap) {
+    func handleSwipe(_ swap: Swap) {
         view.isUserInteractionEnabled = false
         
-        level.performSwap(swap: swap)
-        
-        scene.animate(swap) {
+        if level.isPossibleSwap(swap) {
+            level.performSwap(swap)
+            scene.animate(swap, completion: handleMatches)
+        } else {
+            scene.animateInvalidSwap(swap) {
             self.view.isUserInteractionEnabled = true
+        }}
+    }
+    
+    func handleMatches() {
+        let chains = level.removeMatches()
+        scene.animateMatchedCookies(for: chains) {
+            let columns = self.level.fillHoles()
+            self.scene.animateFallingCookies(columns: columns) {
+                self.view.isUserInteractionEnabled = true
+            }
         }
     }
 }

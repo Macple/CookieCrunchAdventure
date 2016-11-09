@@ -6,6 +6,7 @@ let NumRows = 9
 class Level {
     fileprivate var cookies = Array2D<Cookie>(columns: NumColumns, rows: NumRows)
     private var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
+    private var possibleSwaps = Set<Swap>()
     
      init(filename: String) {
         guard let dictionary = Dictionary<String, AnyObject>.loadJSONFromBundle(filename: filename) else { return }
@@ -30,7 +31,14 @@ class Level {
     }
     
     func shuffle() -> Set<Cookie> {
-        return createInitialCookies()
+        var set: Set<Cookie>
+        repeat {
+            set = createInitialCookies()
+            detectPossibleSwaps()
+            print("possible swaps: \(possibleSwaps)")
+        } while possibleSwaps.count == 0
+        
+        return set
     }
     
     private func createInitialCookies() -> Set<Cookie> {
@@ -65,7 +73,7 @@ class Level {
         return tiles[column, row]
     }
     
-    func performSwap(swap: Swap) {
+    func performSwap(_ swap: Swap) {
         let columnA = swap.cookieA.column
         let rowA = swap.cookieA.row
         let columnB = swap.cookieB.column
@@ -78,5 +86,201 @@ class Level {
         cookies[columnB, rowB] = swap.cookieA
         swap.cookieA.column = columnB
         swap.cookieA.row = rowB
+    }
+    
+    private func hasChainAt(column: Int, row: Int) -> Bool {
+        let cookieType = cookies[column, row]!.cookieType
+        
+        // Horizontal chain check
+        var horzLength = 1
+        
+        // Left
+        var i = column - 1
+        while i >= 0 && cookies[i, row]?.cookieType == cookieType {
+            i -= 1
+            horzLength += 1
+        }
+        
+        // Right
+        i = column + 1
+        while i < NumColumns && cookies[i, row]?.cookieType == cookieType {
+            i += 1
+            horzLength += 1
+        }
+        if horzLength >= 3 { return true }
+        
+        // Vertical chain check
+        var vertLength = 1
+        
+        // Down
+        i = row - 1
+        while i >= 0 && cookies[column, i]?.cookieType == cookieType {
+            i -= 1
+            vertLength += 1
+        }
+        
+        // Up
+        i = row + 1
+        while i < NumRows && cookies[column, i]?.cookieType == cookieType {
+            i += 1
+            vertLength += 1
+        }
+        return vertLength >= 3
+    }
+    
+    func detectPossibleSwaps() {
+        var set = Set<Swap>()
+        
+        for row in 0..<NumRows {
+            for column in 0..<NumColumns {
+                if let cookie = cookies[column, row] {
+                    // Is it possible to swap this cookie with the one on the right?
+                    if column < NumColumns - 1 {
+                        // Have a cookie in this spot? If there is no tile, there is no cookie.
+                        if let other = cookies[column + 1, row] {
+                            // Swap them
+                            cookies[column, row] = other
+                            cookies[column + 1, row] = cookie
+                            
+                            // Is either cookie now part of a chain?
+                            if hasChainAt(column: column + 1, row: row) ||
+                                hasChainAt(column: column, row: row) {
+                                set.insert(Swap(cookieA: cookie, cookieB: other))
+                            }
+                            
+                            // Swap them back
+                            cookies[column, row] = cookie
+                            cookies[column + 1, row] = other
+                        }
+                    }
+                    if row < NumRows - 1 {
+                        if let other = cookies[column, row + 1] {
+                            cookies[column, row] = other
+                            cookies[column, row + 1] = cookie
+                            
+                            // Is either cookie now part of a chain?
+                            if hasChainAt(column: column, row: row + 1) ||
+                                hasChainAt(column: column, row: row) {
+                                set.insert(Swap(cookieA: cookie, cookieB: other))
+                            }
+                            
+                            // Swap them back
+                            cookies[column, row] = cookie
+                            cookies[column, row + 1] = other
+                        }
+                    }
+                }
+            }
+        }
+        
+        possibleSwaps = set
+    }
+    
+    func isPossibleSwap(_ swap: Swap) -> Bool {
+        return possibleSwaps.contains(swap)
+    }
+    
+    private func detectHorizontalMatches() -> Set<Chain> {
+        var set = Set<Chain>()
+
+        for row in 0..<NumRows {
+            var column = 0
+            while column < NumColumns-2 {
+                if let cookie = cookies[column, row] {
+                    let matchType = cookie.cookieType
+
+                    if cookies[column + 1, row]?.cookieType == matchType &&
+                        cookies[column + 2, row]?.cookieType == matchType {
+
+                        let chain = Chain(chainType: .horizontal)
+                        repeat {
+                            chain.add(cookie: cookies[column, row]!)
+                            column += 1
+                        } while column < NumColumns && cookies[column, row]?.cookieType == matchType
+                        
+                        set.insert(chain)
+                        continue
+                    }
+                }
+
+                column += 1
+            }
+        }
+        return set
+    }
+    
+    private func detectVerticalMatches() -> Set<Chain> {
+        var set = Set<Chain>()
+        
+        for column in 0..<NumColumns {
+            var row = 0
+            while row < NumRows-2 {
+                if let cookie = cookies[column, row] {
+                    let matchType = cookie.cookieType
+                    
+                    if cookies[column, row + 1]?.cookieType == matchType &&
+                        cookies[column, row + 2]?.cookieType == matchType {
+                        let chain = Chain(chainType: .vertical)
+                        repeat {
+                            chain.add(cookie: cookies[column, row]!)
+                            row += 1
+                        } while row < NumRows && cookies[column, row]?.cookieType == matchType
+                        
+                        set.insert(chain)
+                        continue
+                    }
+                }
+                row += 1
+            }
+        }
+        return set
+    }
+    
+    func removeMatches() -> Set<Chain> {
+        let horizontalChains = detectHorizontalMatches()
+        let verticalChains = detectVerticalMatches()
+        
+        removeCookies(chains: horizontalChains)
+        removeCookies(chains: verticalChains)
+        
+        return horizontalChains.union(verticalChains)
+    }
+    
+    private func removeCookies(chains: Set<Chain>) {
+        for chain in chains {
+            for cookie in chain.cookies {
+                cookies[cookie.column, cookie.row] = nil
+            }
+        }
+    }
+    
+    func fillHoles() -> [[Cookie]] {
+        var columns = [[Cookie]]()
+        for column in 0..<NumColumns {
+            var array = [Cookie]()
+            for row in 0..<NumRows {
+                
+                if tiles[column, row] != nil && cookies[column, row] == nil {
+                    
+                    for lookup in (row + 1)..<NumRows {
+                        if let cookie = cookies[column, lookup] {
+                            
+                            cookies[column, lookup] = nil
+                            cookies[column, row] = cookie
+                            cookie.row = row
+                            
+                            array.append(cookie)
+                            
+                            break
+                        }
+                    }
+                }
+            }
+            // 7
+            if !array.isEmpty {
+                columns.append(array)
+            }
+        }
+        return columns
     }
 }
