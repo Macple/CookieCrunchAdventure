@@ -5,6 +5,7 @@ class GameScene: SKScene {
     private var swipeFromRow: Int?
     
     var level: Level!
+    var selectionSprite = SKSpriteNode()
     
     var swipeHandler: ((Swap) -> ())?
     
@@ -88,7 +89,8 @@ class GameScene: SKScene {
 
         let (success, column, row) = convertPoint(point: location)
         if success {
-            if level.cookieAt(column: column, row: row) != nil {
+            if let cookie = level.cookieAt(column: column, row: row) {
+                showSelectionIndicatorFor(cookie: cookie)
                 swipeFromColumn = column
                 swipeFromRow = row
             }
@@ -117,6 +119,7 @@ class GameScene: SKScene {
             
             if horzDelta != 0 || vertDelta != 0 {
                 trySwap(horizontal: horzDelta, vertical: vertDelta)
+                hideSelectionIndicator()
                 
                 swipeFromColumn = nil
             }
@@ -141,6 +144,9 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if selectionSprite.parent != nil && swipeFromColumn != nil {
+            hideSelectionIndicator()
+        }
         swipeFromColumn = nil
         swipeFromRow = nil
     }
@@ -165,5 +171,26 @@ class GameScene: SKScene {
         let moveB = SKAction.move(to: spriteA.position, duration: duration)
         moveB.timingMode = .easeOut
         spriteB.run(moveB)
+    }
+    
+    func showSelectionIndicatorFor(cookie: Cookie) {
+        if selectionSprite.parent != nil {
+            selectionSprite.removeFromParent()
+        }
+        
+        if let sprite = cookie.sprite {
+            let texture = SKTexture(imageNamed: cookie.cookieType.highlightedSpriteName)
+            selectionSprite.size = CGSize(width: TileWidth, height: TileHeight)
+            selectionSprite.run(SKAction.setTexture(texture))
+            
+            sprite.addChild(selectionSprite)
+            selectionSprite.alpha = 1.0
+        }
+    }
+    
+    func hideSelectionIndicator() {
+        selectionSprite.run(SKAction.sequence([
+            SKAction.fadeOut(withDuration: 0.3),
+            SKAction.removeFromParent()]))
     }
 }
